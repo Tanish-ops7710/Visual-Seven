@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Seven - We Design Light. We Build Identity.</title>
+    <meta name="description" content="Premium neon signs, LED signage, and custom branding solutions that illuminate your brand's story.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="min-h-screen bg-black text-white">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                <a href="index.html" id="logo-link" class="flex items-center">
+                    <img src="images/logo-dark.png" alt="Visual Seven" class="h-10 w-auto">
+                </a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" id="nav-home" class="nav-link text-sm font-medium text-white/90 hover:text-white">Home</a>
+                    <a href="portfolio.html" id="nav-portfolio" class="nav-link text-sm font-medium text-white/90 hover:text-white">Portfolio</a>
+                    <a href="#services" id="nav-services" class="nav-link text-sm font-medium text-white/90 hover:text-white">Services</a>
+                    <a href="contact.html" id="nav-contact" class="nav-link text-sm font-medium text-white/90 hover:text-white">Contact</a>
+                    <a href="custom-sign.html" class="px-5 py-2 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-full text-xs font-semibold hover:shadow-[0_0_20px_rgba(0,217,255,0.4)] transition-all flex items-center gap-1.5 border border-white/10">
+                        <iconify-icon icon="lucide:zap" class="text-sm animate-pulse"></iconify-icon> Design Neon
+                    </a>
+                    <a href="admin/login.html" id="nav-admin" class="ml-2 w-9 h-9 bg-white/5 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] border border-white/10 rounded-lg flex items-center justify-center transition-all" title="Admin Panel">
+                        <iconify-icon icon="lucide:lock" class="text-sm text-white/50 hover:text-white"></iconify-icon>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white/80" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-3">
+                <a href="index.html" class="text-sm font-medium text-white/90 py-2">Home</a>
+                <a href="portfolio.html" class="text-sm font-medium text-white/90 py-2">Portfolio</a>
+                <a href="#services" class="text-sm font-medium text-white/90 py-2">Services</a>
+                <a href="contact.html" class="text-sm font-medium text-white/90 py-2">Contact</a>
+                <a href="custom-sign.html" class="text-sm font-semibold text-[#00d9ff] py-2 flex items-center gap-1.5"><iconify-icon icon="lucide:zap"></iconify-icon> Design Neon</a>
+                <a href="admin/login.html" class="text-sm font-medium text-white/55 py-2 flex items-center gap-2"><iconify-icon icon="lucide:lock" class="text-sm"></iconify-icon> Admin</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 neon-gradient opacity-20"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0a0e27] via-transparent to-black"></div>
+            <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+            <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+            <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+                <div class="mb-8">
+                    <img src="images/logo-dark.png" alt="Visual Seven" class="h-32 md:h-44 w-auto mx-auto drop-shadow-[0_0_30px_rgba(0,217,255,0.3)]">
+                </div>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-[0.2em] leading-tight">
+                    <span class="text-[#00d9ff]">DESIGN</span>
+                    <span class="text-white/30 mx-2 md:mx-4">|</span>
+                    <span class="text-[#b000ff]">SIGNAGE</span>
+                    <span class="text-white/30 mx-2 md:mx-4">|</span>
+                    <span class="text-[#00d9ff]">EXHIBITION</span>
+                    <span class="text-white/30 mx-2 md:mx-4">|</span>
+                    <span class="text-[#b000ff]">PRINTS</span>
+                </h1>
+                <p class="text-lg md:text-xl text-white/50 mb-12 max-w-3xl mx-auto font-light">
+                    Premium signage, branding & exhibition solutions that illuminate your brand's identity
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    <a href="custom-sign.html" id="cta-design-neon" class="cta-btn px-8 py-4 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-full font-semibold text-lg w-full sm:w-auto text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,217,255,0.2)] hover:shadow-[0_0_35px_rgba(0,217,255,0.5)]">
+                        <iconify-icon icon="lucide:zap" class="text-xl animate-pulse"></iconify-icon> Design Custom Neon
+                    </a>
+                    <a href="portfolio.html" id="cta-view-work" class="cta-btn px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full font-semibold text-lg hover:bg-white/20 w-full sm:w-auto text-center">Our Portfolio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects -->
+        <section id="portfolio" class="py-24 px-6 bg-[#0a0e27] relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 neon-text">Featured Projects</h2>
+                    <p class="text-lg md:text-xl text-white/60">Illuminating brands with creative brilliance</p>
+                </div>
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div class="text-center mt-12">
+                    <a href="portfolio.html" class="cta-btn inline-block px-8 py-3 bg-white/10 border border-white/20 rounded-full font-medium text-white/80 hover:text-white hover:bg-white/20">View All Projects →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="py-24 px-6 bg-black relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 neon-text">Our Services</h2>
+                    <p class="text-lg md:text-xl text-white/60">Comprehensive signage and branding solutions</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="service-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#00d9ff]/20 to-[#b000ff]/20 flex items-center justify-center neon-glow-blue">
+                            <iconify-icon icon="lucide:lightbulb" class="text-4xl text-[#00d9ff]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Neon Sign Design</h3>
+                        <p class="text-white/60 leading-relaxed">Custom neon creations that bring your vision to life with vibrant colors and artistic flair</p>
+                    </div>
+                    <div class="service-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#b000ff]/20 to-[#ff006e]/20 flex items-center justify-center neon-glow-purple">
+                            <iconify-icon icon="lucide:square" class="text-4xl text-[#b000ff]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">LED Sign Boards</h3>
+                        <p class="text-white/60 leading-relaxed">Energy-efficient LED solutions for dynamic, eye-catching displays that captivate audiences</p>
+                    </div>
+                    <div class="service-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#ff006e]/20 to-[#00d9ff]/20 flex items-center justify-center neon-glow-blue">
+                            <iconify-icon icon="lucide:layers" class="text-4xl text-[#ff006e]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Acrylic & Metal Boards</h3>
+                        <p class="text-white/60 leading-relaxed">Premium materials crafted into sophisticated signage with exceptional durability and style</p>
+                    </div>
+                    <div class="service-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#00d9ff]/20 to-[#ff006e]/20 flex items-center justify-center neon-glow-purple">
+                            <iconify-icon icon="lucide:palette" class="text-4xl text-[#00d9ff]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Custom Branding</h3>
+                        <p class="text-white/60 leading-relaxed">Complete brand identity packages that tell your story through strategic design and execution</p>
+                    </div>
+                    <div class="service-card bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#b000ff]/20 to-[#00d9ff]/20 flex items-center justify-center neon-glow-blue">
+                            <iconify-icon icon="lucide:wrench" class="text-4xl text-[#b000ff]"></iconify-icon>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Installation Services</h3>
+                        <p class="text-white/60 leading-relaxed">Professional installation and maintenance ensuring your signage performs flawlessly</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Client Logos -->
+        <section class="py-20 px-6 bg-[#0a0e27] border-t border-white/10">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-semibold mb-2 text-white/80">Trusted by Industry Leaders</h3>
+                    <p class="text-white/50">Brands that shine with Visual Seven</p>
+                </div>
+                <div class="flex items-center justify-center gap-8 md:gap-16 flex-wrap">
+                    <div class="logo-item w-28 md:w-32 h-14 md:h-16 bg-white/10 rounded-lg flex items-center justify-center cursor-pointer"><span class="text-white/60 font-semibold text-sm">Brand 1</span></div>
+                    <div class="logo-item w-28 md:w-32 h-14 md:h-16 bg-white/10 rounded-lg flex items-center justify-center cursor-pointer"><span class="text-white/60 font-semibold text-sm">Brand 2</span></div>
+                    <div class="logo-item w-28 md:w-32 h-14 md:h-16 bg-white/10 rounded-lg flex items-center justify-center cursor-pointer"><span class="text-white/60 font-semibold text-sm">Brand 3</span></div>
+                    <div class="logo-item w-28 md:w-32 h-14 md:h-16 bg-white/10 rounded-lg flex items-center justify-center cursor-pointer"><span class="text-white/60 font-semibold text-sm">Brand 4</span></div>
+                    <div class="logo-item w-28 md:w-32 h-14 md:h-16 bg-white/10 rounded-lg flex items-center justify-center cursor-pointer"><span class="text-white/60 font-semibold text-sm">Brand 5</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-16 px-6 bg-black border-t border-white/10">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+                    <div>
+                        <img src="images/logo-dark.png" alt="Visual Seven" class="h-16 w-auto mb-4">
+                        <p class="text-white/60 text-sm leading-relaxed">Premium signage, branding & exhibition solutions that illuminate your brand's identity.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4 text-white/90">Quick Links</h4>
+                        <div class="space-y-2">
+                            <a href="index.html" class="block text-white/60 hover:text-[#00d9ff] transition-colors text-sm">Home</a>
+                            <a href="portfolio.html" class="block text-white/60 hover:text-[#00d9ff] transition-colors text-sm">Portfolio</a>
+                            <a href="#services" class="block text-white/60 hover:text-[#00d9ff] transition-colors text-sm">Services</a>
+                            <a href="contact.html" class="block text-white/60 hover:text-[#00d9ff] transition-colors text-sm">Contact</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4 text-white/90">Contact</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3"><iconify-icon icon="lucide:phone" class="text-[#00d9ff]"></iconify-icon><span class="text-white/60 text-sm">+91 8879025721</span></div>
+                            <div class="flex items-center gap-3"><iconify-icon icon="lucide:mail" class="text-[#00d9ff]"></iconify-icon><span class="text-white/60 text-sm">kittunilesh@gmail.com</span></div>
+                            <div class="flex items-center gap-3"><iconify-icon icon="lucide:map-pin" class="text-[#00d9ff]"></iconify-icon><span class="text-white/60 text-sm">Ashirwad Indl Estate 5, Gala No 171, Ram Mandir (W), Mumbai - 400104</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4 text-white/90">Follow Us</h4>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-10 h-10 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-lg flex items-center justify-center transition-all"><iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon></a>
+                            <a href="#" class="w-10 h-10 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-lg flex items-center justify-center transition-all"><iconify-icon icon="lucide:facebook" class="text-xl"></iconify-icon></a>
+                            <a href="#" class="w-10 h-10 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-lg flex items-center justify-center transition-all"><iconify-icon icon="lucide:linkedin" class="text-xl"></iconify-icon></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="text-white/40 text-sm">© 2024 Visual Seven. All rights reserved. Designed with passion and precision.</p>
+                    <a href="admin/login.html" class="text-white/30 hover:text-[#00d9ff] text-xs transition-colors flex items-center gap-1.5">
+                        <iconify-icon icon="lucide:lock" class="text-xs"></iconify-icon>
+                        Admin Panel
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/918879025721" id="whatsapp-float" target="_blank" class="fixed bottom-8 right-8 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-full flex items-center justify-center neon-glow-blue hover:scale-110 transition-transform z-50 shadow-2xl">
+            <iconify-icon icon="lucide:message-circle" class="text-2xl md:text-3xl text-white"></iconify-icon>
+        </a>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>

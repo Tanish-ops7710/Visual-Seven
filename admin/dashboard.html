@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Visual Seven Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .drag-active {
+            border-color: #00d9ff !important;
+            background: rgba(0, 217, 255, 0.05) !important;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-[#0a0e27] text-white">
+        <!-- Top Header -->
+        <header class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="/admin/dashboard.html" class="flex items-center">
+                        <img src="../images/logo-dark.png" alt="Visual Seven" class="h-10 w-auto">
+                    </a>
+                    <span class="px-3 py-1 bg-gradient-to-r from-[#00d9ff]/20 to-[#b000ff]/20 border border-[#00d9ff]/30 rounded-full text-xs font-medium text-[#00d9ff]">Admin</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="/" target="_blank" class="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-1.5">
+                        <iconify-icon icon="lucide:external-link" class="text-sm"></iconify-icon>
+                        View Site
+                    </a>
+                    <div class="h-5 w-px bg-white/20"></div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#00d9ff] to-[#b000ff] flex items-center justify-center text-xs font-bold">
+                            <iconify-icon icon="lucide:user" class="text-sm"></iconify-icon>
+                        </div>
+                        <span id="user-email" class="text-sm text-white/70 hidden md:inline"></span>
+                    </div>
+                    <button onclick="handleLogout()" class="px-4 py-2 bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 rounded-lg text-sm text-white/70 hover:text-red-400 transition-all flex items-center gap-2">
+                        <iconify-icon icon="lucide:log-out" class="text-sm"></iconify-icon>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="pt-24 pb-12 px-6">
+            <div class="max-w-7xl mx-auto">
+                
+                <!-- Analytics Metrics Block -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-white/40 block">Portfolio Projects</span>
+                            <span id="kpi-projects" class="text-2xl font-bold mt-1 block">0</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-[#00d9ff]/10 border border-[#00d9ff]/20 flex items-center justify-center">
+                            <iconify-icon icon="lucide:folder-heart" class="text-2xl text-[#00d9ff]"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-white/40 block">Total Inquiries</span>
+                            <span id="kpi-leads" class="text-2xl font-bold mt-1 block">0</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                            <iconify-icon icon="lucide:mail" class="text-2xl text-purple-405"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-white/40 block">New Leads</span>
+                            <span id="kpi-unread" class="text-2xl font-bold mt-1 block text-red-400">0</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center relative">
+                            <span id="kpi-unread-ping" class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping hidden"></span>
+                            <iconify-icon icon="lucide:sparkles" class="text-2xl text-red-400"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-white/40 block">Custom Neon Designs</span>
+                            <span id="kpi-configurator" class="text-2xl font-bold mt-1 block">0</span>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
+                            <iconify-icon icon="lucide:zap" class="text-2xl text-yellow-400"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs navigation header -->
+                <div class="flex border-b border-white/10 gap-6 mb-8 mt-2">
+                    <button id="tab-projects" onclick="switchTab('projects')" class="pb-4 font-semibold text-lg border-b-2 border-[#00d9ff] text-[#00d9ff] transition-all">
+                        Projects Library (<span id="tab-projects-count">0</span>)
+                    </button>
+                    <button id="tab-inquiries" onclick="switchTab('inquiries')" class="pb-4 font-semibold text-lg border-b-2 border-transparent text-white/50 hover:text-white transition-all flex items-center gap-2">
+                        Leads & Inquiries (<span id="tab-inquiries-count">0</span>)
+                        <span id="unread-badge" class="hidden px-2.5 py-0.5 bg-red-500 rounded-full text-[10px] text-white font-bold animate-pulse">0 New</span>
+                    </button>
+                </div>
+
+                <!-- Projects Section View -->
+                <div id="projects-view" class="space-y-6">
+                    <!-- Page Title -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold">Portfolio Projects</h2>
+                            <p class="text-white/50 text-sm mt-1">Manage and edit your business visual catalog projects.</p>
+                        </div>
+                        <button onclick="addNewProject()" class="cta-btn px-6 py-3 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-xl font-semibold flex items-center gap-2">
+                            <iconify-icon icon="lucide:plus" class="text-lg"></iconify-icon>
+                            Add Project
+                        </button>
+                    </div>
+
+                    <!-- Projects Table -->
+                    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-white/10 bg-white/5">
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Project</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Category</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Description</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Date</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="projects-tbody"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div id="empty-state" class="hidden py-20 text-center">
+                            <iconify-icon icon="lucide:folder-open" class="text-6xl text-white/15 mb-4"></iconify-icon>
+                            <p class="text-white/40 text-lg mb-2">No projects yet</p>
+                            <p class="text-white/30 text-sm mb-6">Add your first project to get started</p>
+                            <button onclick="addNewProject()" class="px-6 py-3 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-xl font-semibold text-sm">
+                                <iconify-icon icon="lucide:plus" class="mr-1"></iconify-icon> Add Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inquiries Section View -->
+                <div id="inquiries-view" class="hidden space-y-6">
+                    <div>
+                        <h2 class="text-2xl font-bold">Leads & Inquiries</h2>
+                        <p class="text-white/50 text-sm mt-1">Review incoming design queries, quotes, and customer messages.</p>
+                    </div>
+
+                    <!-- Inquiries Table -->
+                    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-white/10 bg-white/5">
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Client info</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Subject</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Status</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Date Received</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-white/70">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inquiries-tbody"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Inquiry Empty State -->
+                        <div id="inquiries-empty-state" class="hidden py-20 text-center">
+                            <iconify-icon icon="lucide:mail-open" class="text-6xl text-white/15 mb-4"></iconify-icon>
+                            <p class="text-white/40 text-lg mb-2">Inbox is empty</p>
+                            <p class="text-white/30 text-sm">No client submissions or custom neon design orders found.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Add/Edit Project Modal -->
+        <div id="project-modal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)closeProjectModal()">
+            <div class="bg-[#0d1230] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="sticky top-0 bg-[#0d1230] border-b border-white/10 px-8 py-5 flex items-center justify-between z-10">
+                    <h2 id="modal-title" class="text-xl font-bold">Add New Project</h2>
+                    <button onclick="closeProjectModal()" class="w-9 h-9 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-center">
+                        <iconify-icon icon="lucide:x" class="text-lg"></iconify-icon>
+                    </button>
+                </div>
+                <form id="project-form" class="p-8 space-y-6">
+                    <div>
+                        <label for="project-title" class="block text-sm font-medium text-white/80 mb-2">Project Title *</label>
+                        <input type="text" id="project-title" required placeholder="e.g. Luxury Hotel Neon Sign"
+                            class="input-field w-full px-4 py-3 border border-white/20 rounded-xl text-white placeholder:text-white/30">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white/80 mb-2">Categories * <span class="text-white/40 text-xs font-normal">(select one or more)</span></label>
+                        <div id="category-checkboxes" class="grid grid-cols-2 gap-2.5 p-4 border border-white/20 rounded-xl bg-white/5">
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="Neon Signage" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">Neon Signage</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="Acrylic Signage" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">Acrylic Signage</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="Clip On Frame" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">Clip On Frame</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="Fabric Box" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">Fabric Box</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="ACP Work With Signage" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">ACP Work With Signage</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="Exhibition" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">Exhibition</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="MS/Sunboard/Sunpack" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">MS/Sunboard/Sunpack</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="SS Signage" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">SS Signage</span>
+                            </label>
+                            <label class="category-checkbox flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/10 hover:border-[#00d9ff]/40 cursor-pointer transition-all has-[:checked]:bg-[#00d9ff]/10 has-[:checked]:border-[#00d9ff]/50">
+                                <input type="checkbox" name="project-category" value="Saregama" class="w-4 h-4 rounded accent-[#00d9ff] cursor-pointer">
+                                <span class="text-sm text-white/70">Saregama</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="project-description" class="block text-sm font-medium text-white/80 mb-2">Description</label>
+                        <textarea id="project-description" rows="3" placeholder="Brief description of the project..."
+                            class="input-field w-full px-4 py-3 border border-white/20 rounded-xl text-white placeholder:text-white/30 resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white/80 mb-2">Project Images</label>
+                        <div id="drop-zone" class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer hover:border-[#00d9ff]/50 transition-colors">
+                            <iconify-icon icon="lucide:cloud-upload" class="text-4xl text-white/30 mb-3"></iconify-icon>
+                            <p class="text-white/50 text-sm mb-1">Drag & drop images here, or click to browse</p>
+                            <p class="text-white/30 text-xs">PNG, JPG, WEBP up to 10MB each</p>
+                            <input type="file" id="file-input" multiple accept="image/*" class="hidden">
+                        </div>
+                        <div id="image-previews" class="grid grid-cols-4 sm:grid-cols-5 gap-3 mt-4"></div>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+                        <button type="button" onclick="closeProjectModal()" class="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-medium transition-colors">Cancel</button>
+                        <button type="submit" id="save-btn" class="flex-1 py-3 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-xl font-semibold flex items-center justify-center gap-2">
+                            <span id="save-btn-text">Save Project</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="delete-modal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)closeDeleteModal()">
+            <div class="bg-[#0d1230] border border-white/10 rounded-2xl w-full max-w-md p-8 text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <iconify-icon icon="lucide:trash-2" class="text-3xl text-red-400"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Delete Project</h3>
+                <p class="text-white/60 mb-1">Are you sure you want to delete</p>
+                <p id="delete-project-name" class="text-white font-semibold mb-6"></p>
+                <p class="text-white/40 text-sm mb-6">This action cannot be undone. All images will be removed.</p>
+                <div class="flex gap-3">
+                    <button onclick="closeDeleteModal()" class="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-medium transition-colors">Cancel</button>
+                    <button onclick="deleteProject()" class="flex-1 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-xl font-semibold text-red-400 transition-colors">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Inquiry Detail Drawer Modal -->
+        <div id="inquiry-detail-modal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)closeInquiryModal()">
+            <div class="bg-[#0d1230] border border-white/10 rounded-2xl w-full max-w-3xl max-h-[95vh] overflow-y-auto relative">
+                <!-- Background visual glows -->
+                <div id="drawer-glow" class="absolute -top-32 -left-32 w-64 h-64 rounded-full opacity-10 blur-[80px] transition-all"></div>
+                
+                <div class="sticky top-0 bg-[#0d1230] border-b border-white/10 px-8 py-5 flex items-center justify-between z-10">
+                    <div>
+                        <h2 class="text-xl font-bold">Inquiry Details</h2>
+                        <span id="detail-date" class="text-xs text-white/40"></span>
+                    </div>
+                    <button onclick="closeInquiryModal()" class="w-9 h-9 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-center">
+                        <iconify-icon icon="lucide:x" class="text-lg"></iconify-icon>
+                    </button>
+                </div>
+                
+                <div class="p-8 space-y-6 relative z-10">
+                    <!-- Client Profile Information -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 bg-white/5 border border-white/10 rounded-xl">
+                        <div>
+                            <span class="text-xs text-white/40 block">Client Name</span>
+                            <span id="detail-name" class="font-semibold text-white mt-0.5 block"></span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-white/40 block">Email Address</span>
+                            <a id="detail-email" href="" class="font-semibold text-[#00d9ff] hover:underline mt-0.5 block"></a>
+                        </div>
+                        <div>
+                            <span class="text-xs text-white/40 block">Phone Number</span>
+                            <span id="detail-phone" class="font-semibold text-white mt-0.5 block"></span>
+                        </div>
+                    </div>
+
+                    <!-- Message details -->
+                    <div>
+                        <span class="text-xs text-white/40 block mb-1">Message Subject</span>
+                        <h3 id="detail-subject" class="text-lg font-bold text-white mb-3"></h3>
+                        <span class="text-xs text-white/40 block mb-1">Message content</span>
+                        <div class="p-5 bg-white/5 border border-white/10 rounded-xl max-h-48 overflow-y-auto">
+                            <p id="detail-message" class="text-white/80 text-sm whitespace-pre-wrap leading-relaxed"></p>
+                        </div>
+                    </div>
+
+                    <!-- Custom Sign Configuration View -->
+                    <div id="detail-config-section" class="hidden space-y-4">
+                        <h4 class="text-sm font-semibold text-white/90">Custom Neon Design Specifications</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            <!-- Spec Specs -->
+                            <div class="space-y-3 p-5 bg-white/5 border border-white/10 rounded-xl text-xs text-white/70">
+                                <div class="flex justify-between border-b border-white/5 pb-2">
+                                    <span>Configuration Text:</span>
+                                    <span id="detail-config-text" class="text-white font-bold"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-2">
+                                    <span>Selected Font:</span>
+                                    <span id="detail-config-font" class="text-white font-semibold"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-2">
+                                    <span>Neon Tube Color:</span>
+                                    <span id="detail-config-color" class="text-white font-semibold"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-2">
+                                    <span>Backing Type:</span>
+                                    <span id="detail-config-backing" class="text-white font-semibold"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-2">
+                                    <span>Estimated Size:</span>
+                                    <span id="detail-config-size" class="text-white font-semibold"></span>
+                                </div>
+                                <div class="flex justify-between pt-1">
+                                    <span class="text-sm font-semibold">Estimated Cost:</span>
+                                    <span id="detail-config-price" class="text-sm font-extrabold text-[#00d9ff]"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Visual Render Target Canvas inside drawer -->
+                            <div class="brick-wall h-48 rounded-xl border border-white/15 flex items-center justify-center relative overflow-hidden select-none p-4">
+                                <div id="drawer-preview-backing" class="flex items-center justify-center max-w-full max-h-full">
+                                    <span id="drawer-preview-text" class="text-center font-bold text-lg tracking-wide select-none"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Change Status & Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-6 border-t border-white/10">
+                        <div class="flex items-center gap-3">
+                            <label for="detail-status" class="text-xs text-white/45 font-semibold">Update Lead Status:</label>
+                            <select id="detail-status" onchange="updateInquiryStatus()" class="input-field px-4 py-2 bg-white/5 border border-white/15 rounded-xl text-xs focus:border-[#00d9ff] focus:outline-none transition-colors bg-[#0d1230]">
+                                <option value="New">New / Unread</option>
+                                <option value="Read">Read</option>
+                                <option value="Contacted">Contacted</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="inquiry-delete-btn" onclick="confirmDeleteInquiry()" class="px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-xl text-xs font-semibold text-red-400 flex items-center gap-1.5 transition-colors">
+                                <iconify-icon icon="lucide:trash-2"></iconify-icon> Delete Inquiry
+                            </button>
+                            <button onclick="closeInquiryModal()" class="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold">
+                                Close Details
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- View Inquiry Delete Modal -->
+        <div id="inquiry-delete-modal" class="hidden fixed inset-0 z-[110] bg-black/90 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target===this)closeInquiryDeleteModal()">
+            <div class="bg-[#0d1230] border border-white/10 rounded-2xl w-full max-w-md p-8 text-center relative">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <iconify-icon icon="lucide:trash-2" class="text-3xl text-red-400"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Delete Client Inquiry</h3>
+                <p class="text-white/60 text-sm mb-1">Are you sure you want to permanently delete lead from</p>
+                <p id="delete-inquiry-client" class="text-white font-semibold mb-6"></p>
+                <p class="text-white/40 text-xs mb-6">This action cannot be undone. The client's custom neon design parameters will be removed.</p>
+                <div class="flex gap-3">
+                    <button onclick="closeInquiryDeleteModal()" class="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-medium text-xs transition-colors">Cancel</button>
+                    <button onclick="deleteInquiry()" class="flex-1 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 rounded-xl font-semibold text-xs text-red-400 transition-colors">Delete Permanently</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container" class="fixed top-24 right-6 z-[200] space-y-3"></div>
+    </div>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin-dashboard.js"></script>
+</body>
+</html>

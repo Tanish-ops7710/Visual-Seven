@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Your Custom Neon Sign - Visual Seven</title>
+    <meta name="description" content="Use our interactive custom neon sign builder to customize your glowing sign in real-time, view pricing, and request custom orders.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Pacifico&family=Sacramento&family=Yellowtail&family=Great+Vibes&family=Montserrat:wght@800&family=Playfair+Display:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Specific Configurator Styles */
+        .brick-wall {
+            background-color: #0b0c10;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+                radial-gradient(circle at center, rgba(17, 24, 39, 0.4) 0%, rgba(3, 7, 18, 0.9) 100%),
+                repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255, 255, 255, 0.03) 40px, rgba(255, 255, 255, 0.03) 42px),
+                repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255, 255, 255, 0.03) 80px, rgba(255, 255, 255, 0.03) 82px);
+            position: relative;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+        }
+
+        .neon-preview-text {
+            transition: all 0.3s ease;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        /* Acrylic Backing Previews */
+        .backing-none {
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+        }
+        
+        .backing-contour {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(1px);
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            padding: 2.5rem 3.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .backing-board {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(2px);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            width: 90%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Custom scrollbar for builder sidebars */
+        .builder-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .builder-sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .builder-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .builder-sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center">
+                <img src="images/logo-dark.png" alt="Visual Seven" class="h-10 w-auto">
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link text-sm font-medium text-white/90 hover:text-white">Home</a>
+                <a href="portfolio.html" class="nav-link text-sm font-medium text-white/90 hover:text-white">Portfolio</a>
+                <a href="index.html#services" class="nav-link text-sm font-medium text-white/90 hover:text-white">Services</a>
+                <a href="contact.html" class="nav-link text-sm font-medium text-white/90 hover:text-white">Contact</a>
+                <a href="custom-sign.html" class="px-5 py-2 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-full text-xs font-semibold hover:shadow-[0_0_20px_rgba(0,217,255,0.4)] transition-all flex items-center gap-1.5 border border-white/10">
+                    <iconify-icon icon="lucide:zap" class="text-sm animate-pulse"></iconify-icon> Design Neon
+                </a>
+                <a href="admin/login.html" class="w-9 h-9 bg-white/5 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] border border-white/10 rounded-lg flex items-center justify-center transition-all" title="Admin Panel">
+                    <iconify-icon icon="lucide:lock" class="text-sm text-white/50 hover:text-white"></iconify-icon>
+                </a>
+            </div>
+            <button class="md:hidden text-white/80" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-3">
+            <a href="index.html" class="text-sm font-medium text-white/90 py-2">Home</a>
+            <a href="portfolio.html" class="text-sm font-medium text-white/90 py-2">Portfolio</a>
+            <a href="index.html#services" class="text-sm font-medium text-white/90 py-2">Services</a>
+            <a href="contact.html" class="text-sm font-medium text-white/90 py-2">Contact</a>
+            <a href="custom-sign.html" class="text-sm font-semibold text-[#00d9ff] py-2 flex items-center gap-1.5"><iconify-icon icon="lucide:zap"></iconify-icon> Design Neon</a>
+            <a href="admin/login.html" class="text-sm font-medium text-white/55 py-2 flex items-center gap-2"><iconify-icon icon="lucide:lock" class="text-sm"></iconify-icon> Admin</a>
+        </div>
+    </nav>
+
+    <!-- Main Configurator Layout -->
+    <div class="pt-20 min-h-screen flex flex-col lg:flex-row">
+        
+        <!-- Left: Interactive Visual Preview Canvas -->
+        <div class="flex-1 brick-wall flex items-center justify-center min-h-[50vh] lg:min-h-[calc(100vh-5rem)] p-6 lg:p-12 relative overflow-hidden select-none">
+            <!-- Background Glow Overlay -->
+            <div id="canvas-glow-overlay" class="absolute w-[80%] h-[80%] rounded-full opacity-10 blur-[120px] transition-all duration-500 pointer-events-none"></div>
+            
+            <!-- Render Target Container -->
+            <div id="neon-backing-container" class="backing-none flex items-center justify-center transition-all duration-300 max-w-full max-h-[70vh]">
+                <h2 id="neon-preview-text" class="neon-preview-text font-bold text-4xl sm:text-5xl md:text-6xl tracking-wide select-none" style="font-family: 'Pacifico', cursive;">Your Sign</h2>
+            </div>
+
+            <!-- Hint overlay -->
+            <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/60 flex items-center gap-1.5">
+                <iconify-icon icon="lucide:info" class="text-sm text-[#00d9ff]"></iconify-icon>
+                <span>Estimated sizes are for visual reference only.</span>
+            </div>
+        </div>
+
+        <!-- Right: Configurator Control Sidebar -->
+        <div class="w-full lg:w-[480px] bg-[#0d1230] border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col min-h-[50vh] lg:h-[calc(100vh-5rem)]">
+            
+            <!-- Header -->
+            <div class="p-6 border-b border-white/10">
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-[#00d9ff] to-[#b000ff] bg-clip-text text-transparent flex items-center gap-2">
+                    <iconify-icon icon="lucide:palette"></iconify-icon> Custom Neon Builder
+                </h1>
+                <p class="text-white/50 text-xs mt-1">Design your custom neon sign and send an inquiry to our team for a quote.</p>
+            </div>
+
+            <!-- Scrollable Controls -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-8 builder-sidebar">
+                
+                <!-- 1. Text input -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <label for="sign-text" class="text-sm font-semibold text-white/80">1. Enter Text</label>
+                        <span id="char-counter" class="text-xs text-white/40">9/30 chars</span>
+                    </div>
+                    <input type="text" id="sign-text" value="Your Sign" maxlength="30" class="input-field w-full px-4 py-3 bg-white/5 border border-white/15 rounded-xl text-white focus:border-[#00d9ff] focus:outline-none transition-colors" placeholder="Type your text here...">
+                </div>
+
+                <!-- 2. Font select -->
+                <div class="space-y-3">
+                    <label for="sign-font" class="text-sm font-semibold text-white/80 block">2. Select Font Style</label>
+                    <select id="sign-font" class="input-field w-full px-4 py-3 bg-white/5 border border-white/15 rounded-xl text-white focus:border-[#00d9ff] focus:outline-none transition-colors bg-[#0d1230]">
+                        <option value="Pacifico" style="font-family: 'Poppins', sans-serif;">Script Cursive (Pacifico)</option>
+                        <option value="Sacramento" style="font-family: 'Poppins', sans-serif;">Elegant Thin (Sacramento)</option>
+                        <option value="Yellowtail" style="font-family: 'Poppins', sans-serif;">Brush Cursive (Yellowtail)</option>
+                        <option value="Great Vibes" style="font-family: 'Poppins', sans-serif;">Formal Calligraphy (Great Vibes)</option>
+                        <option value="Montserrat" style="font-family: 'Poppins', sans-serif;">Bold Capital Block (Montserrat)</option>
+                        <option value="Playfair Display" style="font-family: 'Poppins', sans-serif;">Serif Bold Italic (Playfair)</option>
+                    </select>
+                </div>
+
+                <!-- 3. Color Select -->
+                <div class="space-y-3">
+                    <label class="text-sm font-semibold text-white/80 block">3. Choose Glow Color</label>
+                    <div id="color-palette" class="grid grid-cols-4 sm:grid-cols-8 gap-3">
+                        <!-- Pink -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#ff007f] hover:scale-105" data-color="#ff007f" data-glow="rgba(255, 0, 127, 0.85)" title="Neon Pink">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Blue -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#00d9ff] hover:scale-105" data-color="#00d9ff" data-glow="rgba(0, 217, 255, 0.85)" title="Electric Blue">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Green -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#39ff14] hover:scale-105" data-color="#39ff14" data-glow="rgba(57, 255, 20, 0.85)" title="Bright Green">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Yellow -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#ffea00] hover:scale-105" data-color="#ffea00" data-glow="rgba(255, 234, 0, 0.85)" title="Sun Yellow">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Orange -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#ff5e00] hover:scale-105" data-color="#ff5e00" data-glow="rgba(255, 94, 0, 0.85)" title="Hot Orange">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Purple -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#b000ff] hover:scale-105" data-color="#b000ff" data-glow="rgba(176, 0, 255, 0.85)" title="Vibrant Purple">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Red -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#ff003c] hover:scale-105" data-color="#ff003c" data-glow="rgba(255, 0, 60, 0.85)" title="Crimson Red">
+                            <iconify-icon icon="lucide:check" class="text-white text-xs hidden"></iconify-icon>
+                        </button>
+                        <!-- Warm White -->
+                        <button class="color-dot w-10 h-10 rounded-full border-2 border-white/20 relative flex items-center justify-center transition-all bg-[#fffaed] hover:scale-105" data-color="#fffaed" data-glow="rgba(255, 250, 237, 0.85)" title="Warm White">
+                            <iconify-icon icon="lucide:check" class="text-black text-xs hidden"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Dimmer Brightness Slider -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <label for="dimmer-slider" class="text-sm font-semibold text-white/80">4. Neon Brightness (Dimmer)</label>
+                        <span id="dimmer-value" class="text-xs text-[#00d9ff] font-medium">100%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <iconify-icon icon="lucide:sun-dim" class="text-white/40 text-lg"></iconify-icon>
+                        <input type="range" id="dimmer-slider" min="15" max="100" value="100" class="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#00d9ff]">
+                        <iconify-icon icon="lucide:sun" class="text-[#00d9ff] text-lg"></iconify-icon>
+                    </div>
+                </div>
+
+                <!-- 5. Backing Type Select -->
+                <div class="space-y-3">
+                    <label class="text-sm font-semibold text-white/80 block">5. Acrylic Backing Style</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button id="backing-none-btn" class="backing-option-btn p-3 border border-white/15 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-center" data-backing="none">
+                            <iconify-icon icon="lucide:grid" class="text-xl mb-1 block mx-auto text-white/60"></iconify-icon>
+                            <span class="text-xs font-medium block">No Backing</span>
+                        </button>
+                        <button id="backing-contour-btn" class="backing-option-btn p-3 border border-white/15 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-center" data-backing="contour">
+                            <iconify-icon icon="lucide:spline" class="text-xl mb-1 block mx-auto text-white/60"></iconify-icon>
+                            <span class="text-xs font-medium block">Cut-To-Shape</span>
+                        </button>
+                        <button id="backing-board-btn" class="backing-option-btn p-3 border border-white/15 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-center" data-backing="board">
+                            <iconify-icon icon="lucide:box" class="text-xl mb-1 block mx-auto text-white/60"></iconify-icon>
+                            <span class="text-xs font-medium block">Acrylic Board</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6. Size selector -->
+                <div class="space-y-3">
+                    <label class="text-sm font-semibold text-white/80 block">6. Estimated Dimensions</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="size-option-btn py-3 border border-white/15 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-center" data-size="small">
+                            <span class="text-xs text-white/40 block">Small</span>
+                            <span class="text-sm font-semibold block text-white/90">30 cm</span>
+                        </button>
+                        <button class="size-option-btn py-3 border border-white/15 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-center" data-size="medium">
+                            <span class="text-xs text-white/40 block">Medium</span>
+                            <span class="text-sm font-semibold block text-white/90">60 cm</span>
+                        </button>
+                        <button class="size-option-btn py-3 border border-white/15 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-center" data-size="large">
+                            <span class="text-xs text-white/40 block">Large</span>
+                            <span class="text-sm font-semibold block text-white/90">100 cm</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Bar -->
+            <div class="p-6 bg-black/40 border-t border-white/10">
+                <button id="order-inquiry-btn" class="w-full py-4 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,217,255,0.2)] hover:shadow-[0_0_35px_rgba(0,217,255,0.45)] transition-all">
+                    <iconify-icon icon="lucide:send" class="text-base"></iconify-icon> Send Design Inquiry
+                </button>
+                <p class="text-center text-xs text-white/30 mt-2.5">Our team will reach out with a custom quote.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Inquiry Submission Modal Overlay -->
+    <div id="inquiry-modal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-[#0d1230] border border-white/10 rounded-2xl w-full max-w-md overflow-hidden relative shadow-2xl">
+            <!-- Background glows -->
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-[#00d9ff]/10 rounded-full blur-[60px]"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-[#b000ff]/10 rounded-full blur-[60px]"></div>
+            
+            <div class="relative z-10 p-6 border-b border-white/10 flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold">Inquire About Your Design</h2>
+                    <p class="text-xs text-white/40 mt-0.5">Submit details to visual seven experts.</p>
+                </div>
+                <button id="close-modal-btn" class="w-8 h-8 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-center">
+                    <iconify-icon icon="lucide:x" class="text-lg"></iconify-icon>
+                </button>
+            </div>
+            
+            <form id="design-inquiry-form" class="relative z-10 p-6 space-y-4">
+                <div>
+                    <label for="inquiry-name" class="block text-xs font-semibold text-white/70 mb-1.5">Full Name *</label>
+                    <input type="text" id="inquiry-name" required placeholder="e.g. Nilesh Gupta" class="input-field w-full px-4 py-2.5 bg-white/5 border border-white/15 rounded-xl text-sm focus:border-[#00d9ff] focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label for="inquiry-email" class="block text-xs font-semibold text-white/70 mb-1.5">Email Address *</label>
+                    <input type="email" id="inquiry-email" required placeholder="e.g. nilesh@example.com" class="input-field w-full px-4 py-2.5 bg-white/5 border border-white/15 rounded-xl text-sm focus:border-[#00d9ff] focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label for="inquiry-phone" class="block text-xs font-semibold text-white/70 mb-1.5">Phone Number</label>
+                    <input type="tel" id="inquiry-phone" placeholder="e.g. +91 8879025721" class="input-field w-full px-4 py-2.5 bg-white/5 border border-white/15 rounded-xl text-sm focus:border-[#00d9ff] focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label for="inquiry-msg" class="block text-xs font-semibold text-white/70 mb-1.5">Message / Requirements</label>
+                    <textarea id="inquiry-msg" rows="3" class="input-field w-full px-4 py-2.5 bg-white/5 border border-white/15 rounded-xl text-sm focus:border-[#00d9ff] focus:outline-none transition-colors resize-none">Hi, please give me a quotation for this custom neon sign design.</textarea>
+                </div>
+                
+                <!-- Display parameters dynamically inside form -->
+                <div class="p-3 bg-white/5 border border-white/10 rounded-xl space-y-1 text-xs text-white/60">
+                    <p class="font-medium text-white/80">Sign Configuration Summary:</p>
+                    <div class="grid grid-cols-2 gap-2 mt-1">
+                        <div>Text: <span id="form-summary-text" class="text-white font-semibold">—</span></div>
+                        <div>Color: <span id="form-summary-color" class="text-white font-semibold">—</span></div>
+                        <div>Font: <span id="form-summary-font" class="text-white font-semibold">—</span></div>
+                        <div>Backing: <span id="form-summary-backing" class="text-white font-semibold">—</span></div>
+                        <div>Size: <span id="form-summary-size" class="text-white font-semibold">—</span></div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-inquiry-btn" class="w-full py-3 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(0,217,255,0.2)] hover:shadow-[0_0_30px_rgba(0,217,255,0.4)] transition-all flex items-center justify-center gap-1.5">
+                    <span id="submit-inquiry-text">Send Design Inquiry</span>
+                </button>
+            </form>
+
+            <div id="submit-success-state" class="hidden relative z-10 p-12 text-center space-y-4">
+                <div class="w-16 h-16 bg-green-500/10 rounded-full border border-green-500/30 flex items-center justify-center mx-auto">
+                    <iconify-icon icon="lucide:check-circle" class="text-3xl text-green-400"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-bold text-white">Inquiry Received!</h3>
+                <p class="text-xs text-white/50 leading-relaxed">Your custom neon sign specifications have been saved. Our team will contact you shortly with a formal quote.</p>
+                <button id="close-success-btn" class="mt-4 px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-semibold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert toast notification popup -->
+    <div id="toast-wrapper" class="fixed top-24 right-6 z-[200] space-y-3"></div>
+
+    <!-- Load Client-side libraries -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/custom-sign.js"></script>
+</body>
+</html>

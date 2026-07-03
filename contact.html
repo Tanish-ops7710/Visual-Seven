@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Visual Seven</title>
+    <meta name="description" content="Get in touch with Visual Seven for premium neon signs and custom branding solutions.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="min-h-screen bg-black text-white">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                <a href="index.html" class="flex items-center">
+                    <img src="images/logo-dark.png" alt="Visual Seven" class="h-10 w-auto">
+                </a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="nav-link text-sm font-medium text-white/90 hover:text-white">Home</a>
+                    <a href="portfolio.html" class="nav-link text-sm font-medium text-white/90 hover:text-white">Portfolio</a>
+                    <a href="index.html#services" class="nav-link text-sm font-medium text-white/90 hover:text-white">Services</a>
+                    <a href="contact.html" class="nav-link text-sm font-medium text-white hover:text-white">Contact</a>
+                    <a href="custom-sign.html" class="px-5 py-2 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-full text-xs font-semibold hover:shadow-[0_0_20px_rgba(0,217,255,0.4)] transition-all flex items-center gap-1.5 border border-white/10">
+                        <iconify-icon icon="lucide:zap" class="text-sm animate-pulse"></iconify-icon> Design Neon
+                    </a>
+                    <a href="admin/login.html" class="w-9 h-9 bg-white/5 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] border border-white/10 rounded-lg flex items-center justify-center transition-all" title="Admin Panel">
+                        <iconify-icon icon="lucide:lock" class="text-sm text-white/50 hover:text-white"></iconify-icon>
+                    </a>
+                </div>
+                <button class="md:hidden text-white/80" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <iconify-icon icon="lucide:menu" class="text-2xl"></iconify-icon>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl px-6 py-4 flex flex-col gap-3">
+                <a href="index.html" class="text-sm font-medium text-white/90 py-2">Home</a>
+                <a href="portfolio.html" class="text-sm font-medium text-white/90 py-2">Portfolio</a>
+                <a href="index.html#services" class="text-sm font-medium text-white/90 py-2">Services</a>
+                <a href="contact.html" class="text-sm font-medium text-white py-2">Contact</a>
+                <a href="custom-sign.html" class="text-sm font-semibold text-[#00d9ff] py-2 flex items-center gap-1.5"><iconify-icon icon="lucide:zap"></iconify-icon> Design Neon</a>
+                <a href="admin/login.html" class="text-sm font-medium text-white/55 py-2 flex items-center gap-2"><iconify-icon icon="lucide:lock" class="text-sm"></iconify-icon> Admin</a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="pt-32 pb-12 px-6 bg-gradient-to-b from-[#0a0e27] to-black relative overflow-hidden">
+            <div class="absolute inset-0 neon-gradient opacity-10"></div>
+            <div class="relative z-10 max-w-7xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold neon-text mb-4">Get In Touch</h1>
+                <p class="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">Let's discuss how we can illuminate your brand</p>
+            </div>
+        </section>
+
+        <!-- Contact Content -->
+        <section class="py-16 px-6 bg-black">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Contact Form -->
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-10">
+                    <h2 class="text-2xl font-bold mb-6">Send Us a Message</h2>
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="contact-name" class="block text-sm font-medium text-white/80 mb-2">Full Name</label>
+                                <input type="text" id="contact-name" placeholder="John Doe" required
+                                    class="input-field w-full px-4 py-3.5 border border-white/20 rounded-xl text-white placeholder:text-white/30">
+                            </div>
+                            <div>
+                                <label for="contact-email" class="block text-sm font-medium text-white/80 mb-2">Email</label>
+                                <input type="email" id="contact-email" placeholder="john@example.com" required
+                                    class="input-field w-full px-4 py-3.5 border border-white/20 rounded-xl text-white placeholder:text-white/30">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="contact-phone" class="block text-sm font-medium text-white/80 mb-2">Phone Number</label>
+                            <input type="tel" id="contact-phone" placeholder="+1 (555) 123-4567"
+                                class="input-field w-full px-4 py-3.5 border border-white/20 rounded-xl text-white placeholder:text-white/30">
+                        </div>
+                        <div>
+                            <label for="contact-subject" class="block text-sm font-medium text-white/80 mb-2">Subject</label>
+                            <select id="contact-subject" class="input-field w-full px-4 py-3.5 border border-white/20 rounded-xl text-white bg-transparent">
+                                <option value="" class="bg-[#0a0e27]">Select a service</option>
+                                <option value="Neon Signage" class="bg-[#0a0e27]">Neon Signage</option>
+                                <option value="Acrylic Signage" class="bg-[#0a0e27]">Acrylic Signage</option>
+                                <option value="Clip On Frame" class="bg-[#0a0e27]">Clip On Frame</option>
+                                <option value="Fabric Box" class="bg-[#0a0e27]">Fabric Box</option>
+                                <option value="ACP Work With Signage" class="bg-[#0a0e27]">ACP Work With Signage</option>
+                                <option value="Exhibition" class="bg-[#0a0e27]">Exhibition</option>
+                                <option value="MS/Sunboard/Sunpack" class="bg-[#0a0e27]">MS/Sunboard/Sunpack</option>
+                                <option value="Other" class="bg-[#0a0e27]">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="contact-message" class="block text-sm font-medium text-white/80 mb-2">Message</label>
+                            <textarea id="contact-message" rows="5" placeholder="Tell us about your project..." required
+                                class="input-field w-full px-4 py-3.5 border border-white/20 rounded-xl text-white placeholder:text-white/30 resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-4 bg-gradient-to-r from-[#00d9ff] to-[#b000ff] rounded-xl font-semibold text-white text-lg">
+                            Send Message
+                        </button>
+                    </form>
+                    <div id="contact-success" class="hidden mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
+                        <iconify-icon icon="lucide:check-circle" class="text-green-400 text-2xl mb-2"></iconify-icon>
+                        <p class="text-green-400 font-medium">Message sent successfully!</p>
+                        <p class="text-white/50 text-sm mt-1">We'll get back to you soon.</p>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-6">Contact Information</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4 p-5 bg-white/5 border border-white/10 rounded-xl hover:border-[#00d9ff]/30 transition-colors">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00d9ff]/20 to-[#b000ff]/20 flex items-center justify-center flex-shrink-0">
+                                    <iconify-icon icon="lucide:phone" class="text-xl text-[#00d9ff]"></iconify-icon>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Phone</h4>
+                                    <p class="text-white/60 text-sm">+91 8879025721</p>
+                                    <p class="text-white/40 text-xs mt-1">Mon-Sat, 10am-7pm</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-5 bg-white/5 border border-white/10 rounded-xl hover:border-[#00d9ff]/30 transition-colors">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#b000ff]/20 to-[#ff006e]/20 flex items-center justify-center flex-shrink-0">
+                                    <iconify-icon icon="lucide:mail" class="text-xl text-[#b000ff]"></iconify-icon>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Email</h4>
+                                    <p class="text-white/60 text-sm">kittunilesh@gmail.com</p>
+                                    <p class="text-white/40 text-xs mt-1">We respond within 24 hours</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-5 bg-white/5 border border-white/10 rounded-xl hover:border-[#00d9ff]/30 transition-colors">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff006e]/20 to-[#00d9ff]/20 flex items-center justify-center flex-shrink-0">
+                                    <iconify-icon icon="lucide:map-pin" class="text-xl text-[#ff006e]"></iconify-icon>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Location</h4>
+                                    <p class="text-white/60 text-sm">Ashirwad Indl Estate 5, Gala No 171, Ram Mandir (W), Mumbai - 400104</p>
+                                    <p class="text-white/40 text-xs mt-1">Visit by appointment</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social -->
+                    <div class="p-6 bg-white/5 border border-white/10 rounded-2xl">
+                        <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-xl flex items-center justify-center transition-all"><iconify-icon icon="lucide:instagram" class="text-xl"></iconify-icon></a>
+                            <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-xl flex items-center justify-center transition-all"><iconify-icon icon="lucide:facebook" class="text-xl"></iconify-icon></a>
+                            <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-xl flex items-center justify-center transition-all"><iconify-icon icon="lucide:linkedin" class="text-xl"></iconify-icon></a>
+                            <a href="https://wa.me/918879025721" target="_blank" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r hover:from-[#00d9ff] hover:to-[#b000ff] rounded-xl flex items-center justify-center transition-all"><iconify-icon icon="lucide:message-circle" class="text-xl"></iconify-icon></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 px-6 bg-black border-t border-white/10">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <a href="index.html"><img src="images/logo-dark.png" alt="Visual Seven" class="h-10 w-auto"></a>
+                <p class="text-white/40 text-sm">© 2024 Visual Seven. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const subject = document.getElementById('contact-subject').value || "General Inquiry";
+            const message = document.getElementById('contact-message').value.trim();
+            const submitBtn = this.querySelector('button[type="submit"]');
+
+            submitBtn.disabled = true;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = "Sending message...";
+
+            try {
+                const { data, error } = await supabase
+                    .from('inquiries')
+                    .insert([{
+                        name,
+                        email,
+                        phone,
+                        subject: `Contact Request: ${subject}`,
+                        message,
+                        status: 'New'
+                    }]);
+
+                if (error) throw error;
+
+                this.classList.add('hidden');
+                document.getElementById('contact-success').classList.remove('hidden');
+            } catch (err) {
+                console.error("Error submitting contact form:", err);
+                alert(`Failed to send message: ${err.message}`);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>
